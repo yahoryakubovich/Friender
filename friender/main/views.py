@@ -9,5 +9,5 @@ def information(request):
 
 
 def rules(request):
-    return HttpResponse(f"<h1>Rules</h1>")
+    return render(request, "rules.html")
 

@@ -1,12 +1,9 @@
-from django.http import HttpResponse
-import datetime
+from django.shortcuts import render
 
 
-def current_datetime(request):
-    now = datetime.datetime.now()
-    html = f"<html><body>It is {now} now.</body></html>"
-    return HttpResponse(html)
+def friender(request):
+    return render(request, "friender.html")
 
 
-def greeting(request):
-    return HttpResponse("<h1>Hello Django</h1>")
+def home(request):
+    return render(request, "home.html")
