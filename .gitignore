@@ -108,7 +108,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.venv_friender/
+venv_friender/
 
 # Spyder project settings
 .spyderproject
@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/venv_friender/

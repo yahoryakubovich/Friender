@@ -31,13 +31,32 @@ class Users(models.Model):
         return self.name
 
 
-class UserRating(models.Model):
-    rating = models.PositiveIntegerField()
-    description = models.CharField(max_length=255)
-    user = models.ForeignKey("Users", on_delete=models.CASCADE)
+class Host(Users):
+    max_spend_value = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.rating
+        return self.name
+
+    indexes = [
+        models.Index(fields=["name"]),
+        models.Index(fields=["max_spend_value"]),
+        models.Index(fields=["age"]),
+        models.Index(fields=["name_hobby"])
+    ]
+
+
+class Guest(Users):
+    min_bill_value = models.PositiveIntegerField()
+
+    indexes = [
+        models.Index(fields=["name"]),
+        models.Index(fields=["min_bill_value"]),
+        models.Index(fields=["age]"]),
+        models.Index(fields=["name_hobby"])
+    ]
+
+    def __str__(self):
+        return self.name
 
 
 class Passport(models.Model):
@@ -51,19 +70,17 @@ class Passport(models.Model):
 
 class Establishments(models.Model):
     name = models.CharField(max_length=200)
-    category = models.CharField(max_length=200, choices=CATEGORY)
+    category = models.CharField(max_length=1, choices=CATEGORY)
+    address = models.CharField(max_length=100, null=True)
+    phone = models.CharField(max_length=100, null=True)
+
+    indexes = [
+        models.Index(fields=["category"]),
+        models.Index(fields=["address"]),
+    ]
 
     def __str__(self):
         return self.name
-
-
-class EstablishmentsRating(models.Model):
-    rating = models.PositiveIntegerField()
-    description = models.CharField(max_length=255)
-    establishment = models.ForeignKey("Establishments", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.rating
 
 
 class Hobbies(models.Model):
@@ -76,5 +93,28 @@ class Hobbies(models.Model):
 
 
 class Appointments(models.Model):
-    user1 = models.ForeignKey("Users", on_delete=models.CASCADE)
+    host = models.ForeignKey("Host", on_delete=models.CASCADE, null=True)
+    guest = models.ForeignKey("Guest", on_delete=models.CASCADE, null=True)
     establishments = models.ForeignKey("Establishments", on_delete=models.CASCADE)
+
+
+class Rating(models.Model):
+    rating = models.PositiveIntegerField()
+    description = models.CharField(max_length=255)
+
+    class Meta:
+        abstract = True
+
+
+class UserRating(Rating):
+    user = models.ForeignKey("Users", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.user)
+
+
+class EstablishmentsRating(Rating):
+    establishment = models.ForeignKey("Establishments", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.establishment)
