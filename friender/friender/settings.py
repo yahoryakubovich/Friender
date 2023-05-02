@@ -35,8 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'appointment',
-    'main',
+    'appointment.apps.AppointmentConfig',
+    'friender',
     'django_extensions',
     'debug_toolbar'
 ]
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'friender.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

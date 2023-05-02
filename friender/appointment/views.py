@@ -1,25 +1,33 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
-
-
-def all_friends(request):
-    return render(request, "friends.html", {"friends": friends})
+from .models import *
 
 
 def all_establishments(request):
-    return render(request, "establishments.html", {"establishments_list": establishments_list})
+    context = {
+        "establishments": Establishments.objects.all(),
+    }
+    return render(request, "establishments.html", context=context)
 
 
 def all_hosts(request):
-    return render(request, "hosts.html", {"hosts": hosts})
+    context = {
+        "hosts": Host.objects.all(),
+    }
+    return render(request, "hosts.html", context=context)
 
 
 def all_guests(request):
-    return render(request, "guests.html", {"guests": guests})
+    context = {
+        "guests": Guest.objects.all(),
+    }
+    return render(request, "guests.html", context=context)
 
 
-friends = ["Лев Шишкин", "Ярослав Пантелеев", "Станислав Андреев", "Василий Ульянов", "Мирон Миронов", "Михаил Пономарев", "Александр Давыдов", "Даниил Яковлев", "Даниил Пирогов", "Владимир Суворов"]
-hosts = ["Евгений", "Вера", "Андрей", "Амина", "Дарья", "Сергей", "Андрей", "Андрей", "Александра", "Роман"]
-guests = ["Евгений", "Вера", "Андрей", "Амина", "Дарья", "Сергей", "Андрей", "Андрей", "Александра", "Роман"]
-establishments_list = ["Бар «Карма»", "Кофейня Tiden", "«Золотой гребешок»", "«Чайная комната»", "Кофейня «26»", "Кофейня «Шерлок»"]
+def user_form_rating(request, **kwargs):
+    user_id = int(kwargs['id'])
+    context = {
+        "user": Users.objects.get(id=user_id)
+    }
+    return render(request, "userrating.html", context=context)

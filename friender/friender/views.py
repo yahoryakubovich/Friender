@@ -7,3 +7,4 @@ def friender(request):
 
 def home(request):
     return render(request, "home.html")
+
