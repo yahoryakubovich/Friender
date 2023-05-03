@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Форма {% endblock %}
+{% block content %}
+<form action="/appointment/user_rating/1/" method="POST">
+    {% csrf_token %}
+  <div class="mb-3">
+    <label for="ratingInputText" class="form-label">Rating</label>
+    <input type="text" class="form-control" id="ratingInputText" aria-describedby="emailHelp" name="rating">
+    <div id="rating" class="form-text"></div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputDescription" class="form-label">Description</label>
+    <input type="text" class="form-control" id="exampleInputDescription" name="description">
+  </div>
+  <button type="submit" class="btn btn-primary">Отправить</button>
+</form>
+{% endblock %}
