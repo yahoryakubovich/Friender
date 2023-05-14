@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Хосты {% endblock %}
+{% block title %} Пользователи {% endblock %}
 {% block content %}
     <table class="table">
         <thead>
@@ -13,14 +13,14 @@
         </tr>
         </thead>
         <tbody>
-        {% for host in hosts %}
+        {% for friend in friends %}
             <tr>
-                <td>{{ host.name }}</td>
-                <td>{{ host.surname }}</td>
-                <td>{{ host.age }}</td>
-                <td>{{ host.sex }}</td>
-                <td>{{ host.email }}</td>
-                <td>{{ host.city }}</td>
+                <td>{{ friend.name }}</td>
+                <td>{{ friend.surname }}</td>
+                <td>{{ friend.age }}</td>
+                <td>{{ friend.sex }}</td>
+                <td>{{ friend.email }}</td>
+                <td>{{ friend.city }}</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -1,5 +1,9 @@
 from django.db import models
 from datetime import datetime
+from django.core.validators import *
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from django import forms
 
 SEX = [
     ("M", "Male"),
@@ -22,7 +26,10 @@ HOBBIES = [
 class Users(models.Model):
     name = models.CharField(max_length=100, verbose_name="Имя")
     surname = models.CharField(max_length=100, verbose_name="Фамилия")
-    age = models.IntegerField(verbose_name="Возраст")
+    age = models.IntegerField(verbose_name="Возраст", validators=[
+        MaxValueValidator(90, message='Is too old'),
+        MinValueValidator(18, message='Is too young')
+    ])
     sex = models.CharField(max_length=1, choices=SEX, verbose_name="Пол")
     email = models.EmailField(null=True, unique=True, verbose_name="Email")
     city = models.CharField(max_length=100, default="Minsk", verbose_name="Город")
@@ -130,8 +137,11 @@ class Appointments(models.Model):
 
 
 class Rating(models.Model):
-    rating = models.PositiveIntegerField(verbose_name="Рейтинг")
-    description = models.CharField(max_length=255, verbose_name="Описание")
+    rating = models.PositiveIntegerField(verbose_name="Рейтинг", validators=[
+        MaxValueValidator(5, message='Is too much'),
+        MinValueValidator(1, message='Is too little')
+    ])
+    description = models.CharField(max_length=100, verbose_name="Описание")
 
     class Meta:
         abstract = True

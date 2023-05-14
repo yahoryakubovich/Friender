@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Хосты {% endblock %}
+{% block title %} Заведения {% endblock %}
 {% block content %}
     <table class="table">
         <thead>
@@ -12,7 +12,7 @@
         <tbody>
         {% for rating in ratings %}
             <tr>
-                <td>{{ rating.user.name }} {{ rating.user.surname }}</td>
+                <td>{{ rating.establishment }} </td>
                 <td>{{ rating.rating }}</td>
                 <td>{{ rating.description }}</td>
             </tr>
