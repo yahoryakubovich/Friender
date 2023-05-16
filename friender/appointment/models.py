@@ -5,6 +5,11 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django import forms
 
+STATUS = [
+    ('A', 'Available'),
+    ('B', 'Busy')
+]
+
 SEX = [
     ("M", "Male"),
     ("F", "Female")
@@ -21,6 +26,7 @@ HOBBIES = [
     ("T", "Traveling"),
     ("P", "Painting")
 ]
+
 
 
 class Users(models.Model):
@@ -57,20 +63,14 @@ class Passport(models.Model):
 
 class Host(Users):
     max_spend_value = models.PositiveIntegerField(verbose_name="Предложение")
+    status = models.CharField(choices=STATUS, max_length=1, default='A')
+
+    def __str__(self):
+        return f"{self.name} ({self.max_spend_value})"
 
     class Meta:
         verbose_name = "Приглашающий"
         verbose_name_plural = "Приглашающие"
-
-    def __str__(self):
-        return self.name
-
-    indexes = [
-        models.Index(fields=["name"]),
-        models.Index(fields=["max_spend_value"]),
-        models.Index(fields=["age"]),
-        models.Index(fields=["name_hobby"])
-    ]
 
 
 class Guest(Users):
@@ -92,7 +92,7 @@ class Guest(Users):
 
 
 class Establishments(models.Model):
-    name = models.CharField(max_length=200, verbose_name="Предложение")
+    name = models.CharField(max_length=200, verbose_name="Название")
     category = models.CharField(max_length=1, choices=CATEGORY, verbose_name="Категория")
     address = models.CharField(max_length=100, null=True, verbose_name="Адрес")
     phone = models.CharField(max_length=100, null=True, verbose_name="Номер")

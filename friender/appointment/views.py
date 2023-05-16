@@ -2,8 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
-from .models import *
 from .forms import *
+from .models import *
 
 
 def all_friends(request):
@@ -107,14 +107,24 @@ def create_appointment_form(request):
         context["form"] = form
         guest = Guest.objects.all().order_by('?')[0]
         if form.is_valid():
+
             host_id = int(request.POST['host'][0])
             place_id = int(request.POST['place'][0])
 
-            Appointments.objects.create(
-                host=Host.objects.get(id=host_id),
-                guest=Guest.objects.get(id=guest.id),
-                establishments=Establishments.objects.get(id=place_id)
-            )
+            # host = Host.objects.get(id=host_id),
+            # establishments = Establishments.objects.get(id=place_id)
+
+            host = Host.objects.get(users_ptr_id=host_id)
+            establishments = Establishments.objects.get(id=place_id)
+
+            if host.status == 'A':
+                host.status = 'B'
+                host.save()
+                Appointments.objects.create(
+                    host=host,
+                    guest=Guest.objects.get(id=guest.id),
+                    establishments=establishments
+                )
             return HttpResponseRedirect("/appointment/friends")
     else:
         form = CreateAppointmentForm()
