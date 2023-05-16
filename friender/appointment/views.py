@@ -105,8 +105,16 @@ def create_appointment_form(request):
     if request.method == "POST":
         form = CreateAppointmentForm(request.POST)
         context["form"] = form
+        guest = Guest.objects.all().order_by('?')[0]
         if form.is_valid():
-            form.save()
+            host_id = int(request.POST['host'][0])
+            place_id = int(request.POST['place'][0])
+
+            Appointments.objects.create(
+                host=Host.objects.get(id=host_id),
+                guest=Guest.objects.get(id=guest.id),
+                establishments=Establishments.objects.get(id=place_id)
+            )
             return HttpResponseRedirect("/appointment/friends")
     else:
         form = CreateAppointmentForm()

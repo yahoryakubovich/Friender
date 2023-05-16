@@ -74,7 +74,7 @@ class Host(Users):
 
 
 class Guest(Users):
-    min_bill_value = models.PositiveIntegerField(verbose_name="Спрос")
+    min_bill_value = models.PositiveIntegerField(verbose_name="Желание")
 
     class Meta:
         verbose_name = "Гость"
@@ -138,8 +138,8 @@ class Appointments(models.Model):
 
 class Rating(models.Model):
     rating = models.PositiveIntegerField(verbose_name="Рейтинг", validators=[
-        MaxValueValidator(5, message='Is too much'),
-        MinValueValidator(1, message='Is too little')
+        MaxValueValidator(5, message='Введите значение между 1 - 5'),
+        MinValueValidator(1, message='Введите значение между 1 - 5')
     ])
     description = models.CharField(max_length=100, verbose_name="Описание")
 

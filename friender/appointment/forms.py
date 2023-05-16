@@ -34,7 +34,6 @@ class CreateUserForm(forms.ModelForm):
         exclude = ('email',)
 
 
-class CreateAppointmentForm(forms.ModelForm):
-    class Meta:
-        model = Appointments
-        fields = ["establishments", "host", "guest"]
+class CreateAppointmentForm(forms.Form):
+    host = forms.ChoiceField(choices=Host.objects.values_list('id', 'name'))
+    place = forms.ChoiceField(choices=Establishments.objects.values_list('id', 'name'))
