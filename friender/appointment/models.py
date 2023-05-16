@@ -28,11 +28,10 @@ HOBBIES = [
 ]
 
 
-
 class Users(models.Model):
     name = models.CharField(max_length=100, verbose_name="Имя")
     surname = models.CharField(max_length=100, verbose_name="Фамилия")
-    age = models.IntegerField(verbose_name="Возраст", validators=[
+    age = models.PositiveIntegerField(verbose_name="Возраст", validators=[
         MaxValueValidator(90, message='Is too old'),
         MinValueValidator(18, message='Is too young')
     ])
@@ -167,3 +166,13 @@ class EstablishmentsRating(Rating):
 
     def __str__(self):
         return str(self.establishment)
+
+
+class Order(models.Model):
+    price = models.PositiveIntegerField(verbose_name="Стоимость")
+    date_order = models.CharField(max_length=100,verbose_name="Комментарий к заказу")
+    appointment = models.OneToOneField("Appointments", on_delete=models.CASCADE, verbose_name="Свидание")
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"

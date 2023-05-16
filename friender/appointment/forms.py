@@ -37,3 +37,9 @@ class CreateUserForm(forms.ModelForm):
 class CreateAppointmentForm(forms.Form):
     host = forms.ChoiceField(choices=Host.objects.values_list('id', 'name'))
     place = forms.ChoiceField(choices=Establishments.objects.values_list('id', 'name'))
+
+
+class MakeAnOrder(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['price', 'date_order', 'appointment']

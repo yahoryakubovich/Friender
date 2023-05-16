@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+{% block title %} Оформление заказа | Знакомься, встречайся, заводи друзей - Friender {% endblock %}
+{% load crispy_forms_tags %}
+    <form method="POST">
+        {{form|crispy}}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Заказать</button>
+    </form>
+{% endblock %}

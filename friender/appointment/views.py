@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views import View
 from .forms import *
 from .models import *
+from django.db import transaction
 
 
 def all_friends(request):
@@ -100,6 +101,7 @@ def create_user_form(request):
     return render(request, "create_user_form.html", context=context)
 
 
+@transaction.atomic
 def create_appointment_form(request):
     context = {}
     if request.method == "POST":
@@ -130,3 +132,25 @@ def create_appointment_form(request):
         form = CreateAppointmentForm()
         context["form"] = form
     return render(request, "create_appointment_form.html", context=context)
+
+
+@transaction.atomic
+def make_an_order(request):
+    context = {}
+    if request.method == "POST":
+        form = MakeAnOrder(request.POST)
+        context["form"] = form
+        if form.is_valid():
+            appointment = (request.POST['appointment'][0])
+            price = int(request.POST['price'])
+            host = Host.objects.get(appointments=appointment)
+
+            if host.max_spend_value >= price:
+                host.max_spend_value = host.max_spend_value - price
+                host.save()
+                form.save()
+            return HttpResponseRedirect("/appointment/friends")
+    else:
+        form = MakeAnOrder()
+        context["form"] = form
+    return render(request, "make_an_order.html", context=context)
