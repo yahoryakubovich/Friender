@@ -127,6 +127,8 @@ def create_appointment_form(request):
                     guest=Guest.objects.get(id=guest.id),
                     establishments=establishments
                 )
+            else:
+                raise ValueError("Пользователь уже занят")
             return HttpResponseRedirect("/appointment/friends")
     else:
         form = CreateAppointmentForm()
@@ -149,6 +151,8 @@ def make_an_order(request):
                 host.max_spend_value = host.max_spend_value - price
                 host.save()
                 form.save()
+            else:
+                raise ValueError("Недостаточно средств")
             return HttpResponseRedirect("/appointment/friends")
     else:
         form = MakeAnOrder()
