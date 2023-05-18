@@ -116,7 +116,7 @@ def create_appointment_form(request):
             # host = Host.objects.get(id=host_id),
             # establishments = Establishments.objects.get(id=place_id)
 
-            host = Host.objects.get(users_ptr_id=host_id)
+            host = Host.objects.filter(users_ptr_id=host_id).select_for_update()[0]
             establishments = Establishments.objects.get(id=place_id)
 
             if host.status == 'A':
