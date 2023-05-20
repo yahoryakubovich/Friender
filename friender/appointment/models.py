@@ -145,6 +145,9 @@ class Rating(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return str(self.rating)
+
 
 class UserRating(Rating):
     user = models.ForeignKey("Users", on_delete=models.CASCADE, verbose_name="Пользователь")
@@ -154,7 +157,7 @@ class UserRating(Rating):
         verbose_name_plural = "Рейтинг пользователей"
 
     def __str__(self):
-        return str(self.user)
+        return str(self.rating)
 
 
 class EstablishmentsRating(Rating):
@@ -170,7 +173,7 @@ class EstablishmentsRating(Rating):
 
 class Order(models.Model):
     price = models.PositiveIntegerField(verbose_name="Стоимость")
-    date_order = models.CharField(max_length=100,verbose_name="Комментарий к заказу")
+    date_order = models.CharField(max_length=100, verbose_name="Комментарий к заказу")
     appointment = models.OneToOneField("Appointments", on_delete=models.CASCADE, verbose_name="Свидание")
 
     class Meta:

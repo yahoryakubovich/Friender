@@ -5,46 +5,88 @@ from django.views import View
 from .forms import *
 from .models import *
 from django.db import transaction
+from django.core.paginator import Paginator
 
 
 def all_friends(request):
+    users = Users.objects.all().prefetch_related('hobbies_set', 'userrating_set')
+    paginator = Paginator(users, 5)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "friends": Users.objects.all(),
+        "friends": users,
+        "page_obj": page_obj
     }
     return render(request, "friends.html", context=context)
 
 
 def all_establishments(request):
+    establishments = Establishments.objects.all()
+    paginator = Paginator(establishments, 5)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "establishments": Establishments.objects.all(),
+        "establishments": establishments,
+        "page_obj": page_obj
     }
     return render(request, "establishments.html", context=context)
 
 
 def all_hosts(request):
+    hosts = Host.objects.all()
+    paginator = Paginator(hosts, 5)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "hosts": Host.objects.all(),
+        "hosts": hosts,
+        "page_obj": page_obj
     }
     return render(request, "hosts.html", context=context)
 
 
 def all_guests(request):
+    guests = Guest.objects.all()
+    paginator = Paginator(guests, 5)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
     context = {
-        "guests": Guest.objects.all(),
+        "guests": guests,
+        "page_obj": page_obj
     }
     return render(request, "guests.html", context=context)
 
 
 def user_rating(request):
+    userratings = UserRating.objects.all().select_related('user')
+    paginator = Paginator(userratings, 5)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "ratings": UserRating.objects.all().select_related('user')
+        "userratings": userratings,
+        "page_obj": page_obj
     }
     return render(request, "user_rating.html", context=context)
 
 
 def establishment_rating(request):
+    estratings = EstablishmentsRating.objects.all().select_related('establishment')
+    paginator = Paginator(estratings, 5)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        "ratings": EstablishmentsRating.objects.all().select_related('establishment')
+        "estratings": estratings,
+        "page_obj": page_obj
     }
     return render(request, "establishment_rating.html", context=context)
 
