@@ -143,7 +143,6 @@ def create_user_form(request):
     return render(request, "create_user_form.html", context=context)
 
 
-@transaction.atomic
 def create_appointment_form(request):
     context = {}
     if request.method == "POST":
@@ -158,19 +157,21 @@ def create_appointment_form(request):
             # host = Host.objects.get(id=host_id),
             # establishments = Establishments.objects.get(id=place_id)
 
-            host = Host.objects.filter(users_ptr_id=host_id).select_for_update()[0]
+            # host = Host.objects.filter(users_ptr_id=host_id).select_for_update()[0]
             establishments = Establishments.objects.get(id=place_id)
-
-            if host.status == 'A':
-                host.status = 'B'
-                host.save()
-                Appointments.objects.create(
-                    host=host,
-                    guest=Guest.objects.get(id=guest.id),
-                    establishments=establishments
-                )
-            else:
-                raise ValueError("Пользователь уже занят")
+            hosts = Host.objects.select_for_update().filter(users_ptr_id=host_id)
+            with transaction.atomic():
+                for host in hosts:
+                    if host.status == 'A':
+                        host.status = 'B'
+                        host.save()
+                        Appointments.objects.create(
+                            host=host,
+                            guest=Guest.objects.get(id=guest.id),
+                            establishments=establishments
+                        )
+                    else:
+                        raise ValueError("Пользователь уже занят")
             return HttpResponseRedirect("/appointment/friends")
     else:
         form = CreateAppointmentForm()
