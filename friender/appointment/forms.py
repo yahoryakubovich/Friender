@@ -13,7 +13,7 @@ SEX = [
 class UserFormRating(forms.ModelForm):
     class Meta:
         model = UserRating
-        fields = ["rating", "description"]
+        fields = '__all__'
         widgets = {
             "description": forms.Textarea(attrs={'class': 'form-input'}),
         }
@@ -22,7 +22,7 @@ class UserFormRating(forms.ModelForm):
 class EstablishmentFormRating(forms.ModelForm):
     class Meta:
         model = EstablishmentsRating
-        fields = ["rating", "description"]
+        fields = '__all__'
         widgets = {
             "description": forms.Textarea(attrs={'class': 'form-input'}),
         }
@@ -31,6 +31,7 @@ class EstablishmentFormRating(forms.ModelForm):
 class CreateUserForm(forms.ModelForm):
     class Meta:
         model = Users
+        fields = '__all__'
         exclude = ('email',)
 
 
@@ -42,4 +43,4 @@ class CreateAppointmentForm(forms.Form):
 class MakeAnOrder(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['price', 'date_order', 'appointment']
+        fields = '__all__'

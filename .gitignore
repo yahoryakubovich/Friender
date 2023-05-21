@@ -4,6 +4,7 @@
 *.so
 
 # Distribution / packaging
+media_files/
 .Python
 build/
 develop-eggs/

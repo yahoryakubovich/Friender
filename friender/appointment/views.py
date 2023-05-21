@@ -64,28 +64,28 @@ def all_guests(request):
 
 
 def user_rating(request):
-    userratings = UserRating.objects.all().select_related('user')
-    paginator = Paginator(userratings, 5)
+    ratings = UserRating.objects.all().select_related('user')
+    paginator = Paginator(ratings, 5)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     context = {
-        "userratings": userratings,
+        "ratings": ratings,
         "page_obj": page_obj
     }
     return render(request, "user_rating.html", context=context)
 
 
 def establishment_rating(request):
-    estratings = EstablishmentsRating.objects.all().select_related('establishment')
-    paginator = Paginator(estratings, 5)
+    ratings = EstablishmentsRating.objects.all().select_related('establishment')
+    paginator = Paginator(ratings, 5)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
     context = {
-        "estratings": estratings,
+        "ratings": ratings,
         "page_obj": page_obj
     }
     return render(request, "establishment_rating.html", context=context)
@@ -132,7 +132,7 @@ def establishment_form_rating(request, **kwargs):
 def create_user_form(request):
     context = {}
     if request.method == "POST":
-        form = CreateUserForm(request.POST)
+        form = CreateUserForm(request.POST, request.FILES)
         context["form"] = form
         if form.is_valid():
             form.save()

@@ -12,6 +12,7 @@
             <th scope="col">Город</th>
             <th scope="col">Хобби</th>
             <th scope="col">Рейтинг</th>
+            <th scope="col">Фото</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@
                         {{ rating }},
                     {% endfor %}
                 </td>
+                <td>{% if friend.photo %}<img style="max-height: 100px" src="{{ friend.photo.url }}"> {% endif %}</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 color_code = "ffd700"
 
@@ -20,7 +21,6 @@ class RatingInLine(admin.TabularInline):
 
 
 class HobbiesInLine(admin.StackedInline):
-
     model = Hobbies.user.through
     verbose_name = "Пользователь данного хобби"
     verbose_name_plural = "Пользователи данного хобби"
@@ -37,8 +37,12 @@ class UsersAdmin(admin.ModelAdmin):
             self.surname,
         )
 
-    fields = [("name", "surname"), "age", "sex", "email", "city"]
-    list_display = [colored_name, "name", "surname", "age", "sex", "city"]
+    def profile_photo(self, objects):
+        if objects.photo:
+            return mark_safe(f"<img src={objects.photo.url} width=50>")
+
+    fields = [("name", "surname"), "age", "sex", "email", "city", "photo"]
+    list_display = [colored_name, "name", "surname", "age", "sex", "city", "profile_photo"]
     list_display_links = ["name", "surname"]
     ordering = ["name"]
     search_fields = ["age", "city", "sex"]
@@ -75,8 +79,20 @@ class HobbiesAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(Establishments)
+class EstablishmentsAdmin(admin.ModelAdmin):
+    def profile_photo(self, objects):
+        if objects.photo:
+            return mark_safe(f"<img src={objects.photo.url} width=50>")
+
+    fields = ["name", "category", "address", "phone", "photo"]
+    list_display = ["name", "category", "address", "phone", "profile_photo"]
+    list_display_links = ["name"]
+    ordering = ["name"]
+    list_per_page = 20
+
+
 admin.site.register(UserRating)
-admin.site.register(Establishments)
 admin.site.register(EstablishmentsRating)
 admin.site.register(Appointments)
 admin.site.register(Host)

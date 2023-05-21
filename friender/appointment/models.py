@@ -38,6 +38,7 @@ class Users(models.Model):
     sex = models.CharField(max_length=1, choices=SEX, verbose_name="Пол")
     email = models.EmailField(null=True, unique=True, verbose_name="Email")
     city = models.CharField(max_length=100, default="Minsk", verbose_name="Город")
+    photo = models.ImageField(upload_to="profile_photo", null=True)
 
     class Meta:
         verbose_name = "Пользователь"
@@ -95,6 +96,7 @@ class Establishments(models.Model):
     category = models.CharField(max_length=1, choices=CATEGORY, verbose_name="Категория")
     address = models.CharField(max_length=100, null=True, verbose_name="Адрес")
     phone = models.CharField(max_length=100, null=True, verbose_name="Номер")
+    photo = models.ImageField(upload_to="establishment_photo", null=True)
 
     class Meta:
         verbose_name = "Место"
