@@ -6,108 +6,42 @@ from .forms import *
 from .models import *
 from django.db import transaction
 from django.core.paginator import Paginator
+from django.views.generic import TemplateView, ListView, CreateView, FormView
 
 
-def all_friends(request):
-    users = Users.objects.all().prefetch_related('hobbies_set', 'userrating_set')
-    paginator = Paginator(users, 5)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        "friends": users,
-        "page_obj": page_obj
-    }
-    return render(request, "friends.html", context=context)
+class FriendListView(ListView):
+    template_name = "friends.html"
+    model = Users
+    context_object_name = "users"
+    paginate_by = 5
 
 
-def all_establishments(request):
-    establishments = Establishments.objects.all()
-    paginator = Paginator(establishments, 5)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        "establishments": establishments,
-        "page_obj": page_obj
-    }
-    return render(request, "establishments.html", context=context)
+class EstablishmentListView(ListView):
+    model = Establishments
+    template_name = "establishments.html"
+    context_object_name = "establishments"
+    paginate_by = 5
 
 
-def all_hosts(request):
-    hosts = Host.objects.all()
-    paginator = Paginator(hosts, 5)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        "hosts": hosts,
-        "page_obj": page_obj
-    }
-    return render(request, "hosts.html", context=context)
+class HostListView(ListView):
+    template_name = "hosts.html"
+    model = Host
+    context_object_name = "hosts"
+    paginate_by = 5
 
 
-def all_guests(request):
-    guests = Guest.objects.all()
-    paginator = Paginator(guests, 5)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    context = {
-        "guests": guests,
-        "page_obj": page_obj
-    }
-    return render(request, "guests.html", context=context)
+class GuestListView(ListView):
+    template_name = "guests.html"
+    model = Guest
+    context_object_name = "guests"
+    paginate_by = 5
 
 
-def user_rating(request):
-    ratings = UserRating.objects.all().select_related('user')
-    paginator = Paginator(ratings, 5)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        "ratings": ratings,
-        "page_obj": page_obj
-    }
-    return render(request, "user_rating.html", context=context)
-
-
-def establishment_rating(request):
-    ratings = EstablishmentsRating.objects.all().select_related('establishment')
-    paginator = Paginator(ratings, 5)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        "ratings": ratings,
-        "page_obj": page_obj
-    }
-    return render(request, "establishment_rating.html", context=context)
-
-
-def user_form_rating(request, **kwargs):
-    user_id = int(kwargs['id'])
-    context = {}
-    if request.method == "POST":
-        form = UserFormRating(request.POST)
-        context["form"] = form
-        if form.is_valid():
-            UserRating.objects.create(
-                user_id=user_id,
-                rating=request.POST['rating'],
-                description=request.POST['description'],
-            )
-            return HttpResponseRedirect("/appointment/user_rating")
-    else:
-        form = UserFormRating()
-        context["form"] = form
-    return render(request, "user_form_rating.html", context=context)
+class UserRatingListView(ListView):
+    template_name = "user_rating.html"
+    model = UserRating
+    context_object_name = "ratings"
+    paginate_by = 5
 
 
 def establishment_form_rating(request, **kwargs):
@@ -129,18 +63,44 @@ def establishment_form_rating(request, **kwargs):
     return render(request, "establishments_form_rating.html", context=context)
 
 
-def create_user_form(request):
-    context = {}
-    if request.method == "POST":
-        form = CreateUserForm(request.POST, request.FILES)
-        context["form"] = form
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("/appointment/friends")
-    else:
-        form = CreateUserForm()
-        context["form"] = form
-    return render(request, "create_user_form.html", context=context)
+# def user_form_rating(request, **kwargs):
+#     user_id = int(kwargs['id'])
+#     context = {}
+#     if request.method == "POST":
+#         form = UserFormRating(request.POST)
+#         context["form"] = form
+#         if form.is_valid():
+#             UserRating.objects.create(
+#                 user_id=user_id,
+#                 rating=request.POST['rating'],
+#                 description=request.POST['description'],
+#             )
+#             return HttpResponseRedirect("/appointment/user_rating")
+#     else:
+#         form = UserFormRating()
+#         context["form"] = form
+#     return render(request, "user_form_rating.html", context=context)
+
+
+class EstablishmentRatingListView(ListView):
+    template_name = "establishment_rating"
+    model = EstablishmentsRating
+    context_object_name = "ratings"
+    paginate_by = 5
+
+
+class UserRatingFormView(FormView):
+    template_name = "user_form_rating.html"
+    model = UserFormRating
+    fields = ["rating", "description"]
+    success_url = "../user_rating"
+
+
+class UserCreateView(CreateView):
+    template_name = "create_user_form.html"
+    model = Users
+    fields = ["name", "surname", "age", "sex", "email", "city", "photo"]
+    success_url = "../friends"
 
 
 def create_appointment_form(request):
@@ -195,7 +155,3 @@ def make_an_order(request):
         form = MakeAnOrder()
         context["form"] = form
     return render(request, "make_an_order.html", context=context)
-
-class MyView(View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse("Hello Мир")
