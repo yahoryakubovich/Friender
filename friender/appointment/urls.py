@@ -13,5 +13,6 @@ urlpatterns = [
     re_path(r"^establishment_rating/(?P<id>[\d-]+)$", establishment_form_rating, name="establishment_form_rating"),
     path('create_user/', create_user_form, name='create_user'),
     path('create_appointment/', create_appointment_form, name='create_appointment'),
-    path('make_an_order/', make_an_order, name='make_an_order')
+    path('make_an_order/', make_an_order, name='make_an_order'),
+    path('class_view/', MyView.as_view())
 ]

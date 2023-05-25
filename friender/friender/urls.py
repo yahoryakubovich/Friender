@@ -18,11 +18,12 @@ from django.urls import path, include
 from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', friender, name='friender'),
     path('admin/', admin.site.urls),
-    path('home/', home, name='home'),
+    path('', TemplateView.as_view(template_name="friender.html"), name='friender'),
+    path('home/', TemplateView.as_view(template_name="home.html"), name='home'),
     path('appointment/', include("appointment.urls")),
     path('__debug__/', include('debug_toolbar.urls')),
 ]

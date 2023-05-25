@@ -150,19 +150,14 @@ def create_appointment_form(request):
         context["form"] = form
         guest = Guest.objects.all().order_by('?')[0]
         if form.is_valid():
-
             host_id = int(request.POST['host'][0])
             place_id = int(request.POST['place'][0])
 
-            # host = Host.objects.get(id=host_id),
-            # establishments = Establishments.objects.get(id=place_id)
-
-            # host = Host.objects.filter(users_ptr_id=host_id).select_for_update()[0]
             establishments = Establishments.objects.get(id=place_id)
             hosts = Host.objects.select_for_update().filter(users_ptr_id=host_id)
             with transaction.atomic():
                 for host in hosts:
-                    if host.status == 'A':
+                    if host.status == 'A' and host:
                         host.status = 'B'
                         host.save()
                         Appointments.objects.create(
@@ -179,7 +174,6 @@ def create_appointment_form(request):
     return render(request, "create_appointment_form.html", context=context)
 
 
-@transaction.atomic
 def make_an_order(request):
     context = {}
     if request.method == "POST":
@@ -189,15 +183,19 @@ def make_an_order(request):
             appointment = (request.POST['appointment'][0])
             price = int(request.POST['price'])
             host = Host.objects.get(appointments=appointment)
-
-            if host.max_spend_value >= price:
-                host.max_spend_value = host.max_spend_value - price
-                host.save()
-                form.save()
-            else:
-                raise ValueError("Недостаточно средств")
-            return HttpResponseRedirect("/appointment/friends")
+            with transaction.atomic():
+                if host.max_spend_value >= price:
+                    host.max_spend_value = host.max_spend_value - price
+                    host.save()
+                    form.save()
+                else:
+                    raise ValueError("Недостаточно средств")
+                return HttpResponseRedirect("/appointment/friends")
     else:
         form = MakeAnOrder()
         context["form"] = form
     return render(request, "make_an_order.html", context=context)
+
+class MyView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse("Hello Мир")

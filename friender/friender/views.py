@@ -1,8 +1,7 @@
 from django.shortcuts import render
+from django.views import View
+from django.views.generic.base import TemplateView,TemplateResponseMixin, ContextMixin
 
-
-def friender(request):
-    return render(request, "friender.html")
 
 
 def home(request):
