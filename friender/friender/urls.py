@@ -25,6 +25,8 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="friender.html"), name='friender'),
     path('home/', TemplateView.as_view(template_name="home.html"), name='home'),
     path('appointment/', include("appointment.urls")),
+    path('api/', include("friender_api.urls")),
+    path('api_auth/', include('rest_framework.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 if settings.DEBUG:
