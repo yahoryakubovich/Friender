@@ -6,7 +6,9 @@ from .forms import *
 from .models import *
 from django.db import transaction
 from django.core.paginator import Paginator
-from django.views.generic import TemplateView, ListView, CreateView, FormView
+from django.views.generic import *
+
+from django.urls import reverse_lazy
 
 
 class FriendListView(ListView):
@@ -63,23 +65,23 @@ def establishment_form_rating(request, **kwargs):
     return render(request, "establishments_form_rating.html", context=context)
 
 
-# def user_form_rating(request, **kwargs):
-#     user_id = int(kwargs['id'])
-#     context = {}
-#     if request.method == "POST":
-#         form = UserFormRating(request.POST)
-#         context["form"] = form
-#         if form.is_valid():
-#             UserRating.objects.create(
-#                 user_id=user_id,
-#                 rating=request.POST['rating'],
-#                 description=request.POST['description'],
-#             )
-#             return HttpResponseRedirect("/appointment/user_rating")
-#     else:
-#         form = UserFormRating()
-#         context["form"] = form
-#     return render(request, "user_form_rating.html", context=context)
+def user_form_rating(request, **kwargs):
+    user_id = int(kwargs['id'])
+    context = {}
+    if request.method == "POST":
+        form = UserFormRating(request.POST)
+        context["form"] = form
+        if form.is_valid():
+            UserRating.objects.create(
+                user_id=user_id,
+                rating=request.POST['rating'],
+                description=request.POST['description'],
+            )
+            return HttpResponseRedirect("/appointment/user_rating")
+    else:
+        form = UserFormRating()
+        context["form"] = form
+    return render(request, "user_form_rating.html", context=context)
 
 
 class EstablishmentRatingListView(ListView):
@@ -87,13 +89,6 @@ class EstablishmentRatingListView(ListView):
     model = EstablishmentsRating
     context_object_name = "ratings"
     paginate_by = 5
-
-
-class UserRatingFormView(FormView):
-    template_name = "user_form_rating.html"
-    model = UserFormRating
-    fields = ["rating", "description"]
-    success_url = "../user_rating"
 
 
 class UserCreateView(CreateView):

@@ -5,6 +5,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from appointment.models import Establishments
 from .serializers import *
+from django.urls import reverse
 
 
 # Create your views here.
@@ -44,3 +45,13 @@ class EstablishmentsListAPIView(generics.ListCreateAPIView):
 class EstablishmentsListAPIViewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Establishments.objects.all()
     serializer_class = EstablishmentsSerializer
+
+
+class HobbiesListAPIView(generics.ListCreateAPIView):
+    queryset = Hobbies.objects.all()
+    serializer_class = HobbiesSerializer
+
+
+class HobbiesListAPIViewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Hobbies.objects.all()
+    serializer_class = HobbiesSerializer

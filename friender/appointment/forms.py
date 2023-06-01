@@ -13,7 +13,7 @@ SEX = [
 class UserFormRating(forms.ModelForm):
     class Meta:
         model = UserRating
-        fields = '__all__'
+        fields = ['rating', 'description']
         widgets = {
             "description": forms.Textarea(attrs={'class': 'form-input'}),
         }
@@ -22,7 +22,7 @@ class UserFormRating(forms.ModelForm):
 class EstablishmentFormRating(forms.ModelForm):
     class Meta:
         model = EstablishmentsRating
-        fields = '__all__'
+        fields = ['rating', 'description']
         widgets = {
             "description": forms.Textarea(attrs={'class': 'form-input'}),
         }
