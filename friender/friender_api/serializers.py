@@ -37,3 +37,9 @@ class HobbiesSerializer(serializers.ModelSerializer):
         instance.category = validated_data.get('category', instance.category)
         instance.save()
         return instance
+
+
+class UsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        exclude = ('photo',)

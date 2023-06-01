@@ -55,3 +55,17 @@ class HobbiesListAPIView(generics.ListCreateAPIView):
 class HobbiesListAPIViewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Hobbies.objects.all()
     serializer_class = HobbiesSerializer
+
+
+class UsersApiView(APIView):
+
+    def get_object(self, name_hobby):
+        try:
+            return Users.objects.get(name_hobby=name_hobby)
+        except Users.DoesNotExist:
+            raise Http404
+
+    def get(self, request, format=None):
+        queryset = Users.objects.filter(name_hobby="name_hobby")
+        serializer_data = UsersSerializer(queryset, many=True).data
+        return Response(serializer_data)
