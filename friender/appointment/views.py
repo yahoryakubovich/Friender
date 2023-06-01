@@ -85,7 +85,7 @@ def user_form_rating(request, **kwargs):
 
 
 class EstablishmentRatingListView(ListView):
-    template_name = "establishment_rating"
+    template_name = "establishment_rating.html"
     model = EstablishmentsRating
     context_object_name = "ratings"
     paginate_by = 5
