@@ -7,22 +7,35 @@ from .models import *
 from django.db import transaction
 from django.core.paginator import Paginator
 from django.views.generic import *
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from django.urls import reverse_lazy
 
 
-class FriendListView(ListView):
+class FriendListView(LoginRequiredMixin, ListView):
+    login_url = "/admin/login"
     template_name = "friends.html"
     model = Users
     context_object_name = "users"
     paginate_by = 5
 
 
-class EstablishmentListView(ListView):
+class EstablishmentListView(PermissionRequiredMixin, ListView):
+    permission_required = "appointment.view_establishments"
     model = Establishments
     template_name = "establishments.html"
     context_object_name = "establishments"
     paginate_by = 5
+    permission_denied_message = "Отказано в доступе"
+    raise_exception = True
+
+    def get_permission_denied_message(self):
+        """
+        Override this method to override the permission_denied_message attribute.
+        """
+        return self.permission_denied_message
 
 
 class HostListView(ListView):

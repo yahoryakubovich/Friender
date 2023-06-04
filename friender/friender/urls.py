@@ -27,6 +27,7 @@ urlpatterns = [
     path('appointment/', include("appointment.urls")),
     path('api/', include("friender_api.urls")),
     path('api_auth/', include('rest_framework.urls')),
+    path('api-token-auth/', CustomAuthToken.as_view()),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 if settings.DEBUG:
