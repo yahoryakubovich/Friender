@@ -10,6 +10,7 @@ from django.views.generic import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.cache import cache
 
 from django.urls import reverse_lazy
 
@@ -20,6 +21,7 @@ class FriendListView(LoginRequiredMixin, ListView):
     model = Users
     context_object_name = "users"
     paginate_by = 5
+    cache.clear()
 
 
 class EstablishmentListView(PermissionRequiredMixin, ListView):
@@ -43,6 +45,7 @@ class HostListView(ListView):
     model = Host
     context_object_name = "hosts"
     paginate_by = 5
+    cache.clear()
 
 
 class GuestListView(ListView):
