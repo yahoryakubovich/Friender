@@ -2,19 +2,22 @@
 {% block title %} Друзья | Знакомься, встречайся, заводи друзей - Friender {% endblock %}
 {% block content %}
     <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Имя</th>
-            <th scope="col">Фамилия</th>
-            <th scope="col">Возраст</th>
-            <th scope="col">Пол</th>
-            <th scope="col">Email</th>
-            <th scope="col">Город</th>
-            <th scope="col">Хобби</th>
-            <th scope="col">Рейтинг</th>
-            <th scope="col">Фото</th>
-        </tr>
-        </thead>
+        {% load cache %}
+        {% cache 1200 columns %}
+            <thead>
+            <tr>
+                <th scope="col">Имя</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Возраст</th>
+                <th scope="col">Пол</th>
+                <th scope="col">Email</th>
+                <th scope="col">Город</th>
+                <th scope="col">Хобби</th>
+                <th scope="col">Рейтинг</th>
+                <th scope="col">Фото</th>
+            </tr>
+            </thead>
+        {% endcache %}
         <tbody>
         {% for friend in page_obj %}
             <tr>

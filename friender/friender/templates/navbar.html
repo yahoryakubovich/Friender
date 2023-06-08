@@ -8,42 +8,45 @@
     <title>Title</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'friender' %}">Friender</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'friends' %}">Friends</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user_rating' %}">U-Rating</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'hosts' %}">Hosts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'guests' %}">Guests</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'establishments' %}">Establishments</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'establishment_rating' %}">E-Rating</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'create_user' %}">Create User</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'create_appointment' %}">Create Appointment</a>
-                </li>
+{% load cache %}
+{% cache 1200 navbar %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'friender' %}">Friender</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'friends' %}">Friends</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_rating' %}">U-Rating</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'hosts' %}">Hosts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'guests' %}">Guests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'establishments' %}">Establishments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'establishment_rating' %}">E-Rating</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_user' %}">Create User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_appointment' %}">Create Appointment</a>
+                    </li>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -52,16 +55,17 @@
                         </li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
-                </li>
-            </ul>
-            <form class="d-flex">
-               <a class="btn btn-light" href="admin/login" role="button">Log In</a>
-            </form>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <a class="btn btn-light" href="admin/login" role="button">Log In</a>
+                </form>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+{% endcache %}
 </body>
 </html>

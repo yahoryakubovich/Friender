@@ -2,18 +2,22 @@
 {% block title %} Заведения | Знакомься, встречайся, заводи друзей - Friender {% endblock %}
 {% block content %}
     <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Название</th>
-            <th scope="col">Категория</th>
-            <th scope="col">Адрес</th>
-            <th scope="col">Телефон</th>
-        </tr>
-        </thead>
+        {% load cache %}
+        {% cache 1200 columns %}
+            <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Телефон</th>
+            </tr>
+            </thead>
+        {% endcache %}
         <tbody>
         {% for establishment in establishments %}
             <tr>
-                <td><a href="{% url 'establishment_form_rating' id=establishment.id %}">{{ establishment.name }}</a></td>
+                <td><a href="{% url 'establishment_form_rating' id=establishment.id %}">{{ establishment.name }}</a>
+                </td>
                 <td>{{ establishment.category }}</td>
                 <td>{{ establishment.address }}</td>
                 <td>{{ establishment.phone }}</td>

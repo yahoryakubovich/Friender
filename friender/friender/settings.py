@@ -145,9 +145,9 @@ REST_FRAMEWORK = {
 }
 
 CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
-        "LOCATION": "my_cache_table",
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': 'c:/foo/bar',
     }
 }
 
