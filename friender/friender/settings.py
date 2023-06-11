@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import django.core.cache.backends.db
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,7 +33,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'rest_framework',
     'friender_api.apps.FrienderApiConfig',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'django_celery_results'
 ]
 
 MIDDLEWARE = [
@@ -148,6 +151,12 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': 'c:/foo/bar',
+    },
+    'celery_cache': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
     }
 }
 
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'celery_cache'
