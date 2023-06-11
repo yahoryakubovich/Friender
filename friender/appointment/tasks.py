@@ -9,3 +9,5 @@ def add(x, y):
 @shared_task
 def mul(x, y):
     return x * y
+
+add.delay(5,4)
