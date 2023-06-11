@@ -11,6 +11,10 @@ djangorestframework==3.14.0
 Markdown==3.4.3
 celery==5.2.7
 django-celery-results==2.5.1
+redis==4.5.5
+flower==1.2.0
+
+
 
 
 

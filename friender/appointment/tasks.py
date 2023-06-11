@@ -7,5 +7,5 @@ def add(x, y):
 
 
 @shared_task
-def add(x, y):
+def mul(x, y):
     return x * y
