@@ -10,4 +10,5 @@ def add(x, y):
 def mul(x, y):
     return x * y
 
-add.delay(5,4)
+
+mul.delay(4, 2)
