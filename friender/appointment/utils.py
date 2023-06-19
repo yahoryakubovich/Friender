@@ -1,3 +1,6 @@
+from .models import PlaceQueue
+
+
 class Queue:
     FIFO = "FIFO"
     LIFO = "LIFO"
@@ -10,12 +13,12 @@ class Queue:
         self.strategy = strategy
 
     def add(self, value):
-        self.storage.insert(0, value)
+        PlaceQueue.objects.create(value=value)
 
     def pop(self):
-        if self.storage:
-            if self.strategy == self.FIFO:
-                return self.storage.pop()
-            elif self.strategy == self.LIFO:
-                return self.storage.append(0)
-        return None
+        if self.strategy == self.FIFO:
+            val = PlaceQueue.objects.order_by("id").first
+        elif self.strategy == self.LIFO:
+            val = PlaceQueue.objects.order_by("id").last
+        val.delete()
+        return val.value

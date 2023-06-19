@@ -182,3 +182,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
+
+
+class PlaceQueue(models.Model):
+    value = models.PositiveIntegerField(verbose_name="значение")
